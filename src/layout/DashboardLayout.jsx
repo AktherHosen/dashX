@@ -9,9 +9,9 @@ const DashboardLayout = () => {
   const [dropdown, setDropdown] = useState(false);
   // const { user } = useAuth();
   return (
-    <div className="w-full h-screen flex flex-col bg-darkText dark:bg-darkBg">
+    <div className="w-full h-screen flex flex-col text-white">
       {/* Navbar */}
-      <div className="flex bg-darkText dark:border-black dark:bg-darkBg border-b justify-between items-center py-4 px-5 fixed top-0 w-full h-[64px] z-10 shadow-sm">
+      <div className="flex bg-darkBg justify-between items-center py-4 px-5 fixed top-0 w-full h-[64px] z-10 shadow-sm">
         <div
           className={`flex justify-between items-center gap-2 ${
             toggle ? "w-[50px] justify-center" : "w-[200px]"

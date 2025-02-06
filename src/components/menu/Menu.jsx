@@ -10,8 +10,8 @@ const Menu = ({ label, address, icon: Icon, toggle }) => {
           toggle ? "justify-center w-fit" : "w-[180px]"
         }  px-3 py-2 my-5 transition-colors text-darkText duration-300 rounded-sm transform   ${
           isActive
-            ? "bg-gray-200 bg-opacity-80 text-gray-700 "
-            : "text-gray-500 dark:text-darkText"
+            ? "bg-gray-500 bg-opacity-80 text-gray-600 "
+            : "text-gray-300"
         }`
       }
     >

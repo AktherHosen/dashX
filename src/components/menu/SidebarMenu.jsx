@@ -5,7 +5,7 @@ import { ImUsers } from "react-icons/im";
 const SidebarMenu = ({ toggle }) => {
   return (
     <div>
-      <Menu label="Users" address="users" icon={ImUsers} toggle={toggle} />
+      <Menu label="Users" address="/" icon={ImUsers} toggle={toggle} />
       <Menu
         label="Products"
         address="products"
