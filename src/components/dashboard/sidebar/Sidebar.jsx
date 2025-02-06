@@ -18,10 +18,10 @@ const Sidebar = ({ toggle }) => {
 
   return (
     <div
-      className={`fixed dark:border-r dark:border-r-black bg-darkText dark:bg-darkBg h-full transition-all overscroll-y-scroll duration-300 ${
-        toggle ? "w-[60px]  pt-6" : "w-[200px]  pt-6"
+      className={`fixed text-darkText bg-darkBg h-full transition-all overscroll-y-scroll duration-300 ${
+        toggle ? "w-[60px]" : "w-[200px] "
       }`}
-      style={{ top: "34px" }}
+      style={{ top: "64px" }}
     >
       {/* Container for menus with overflow-y-auto for scrolling */}
       <div className="h-full overflow-y-auto sidebar-container  border-r-2 mt-1">
