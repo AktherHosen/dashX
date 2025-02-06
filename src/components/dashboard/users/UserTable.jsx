@@ -86,7 +86,7 @@ const UserTable = () => {
 
   return (
     <div className="customTable w-full flex items-center flex-col gap-2 justify-center">
-      <div className="w-full mx-auto p-4">
+      <div className="w-full mx-auto">
         {/* Search Input */}
         <div className="mb-4">
           <input
@@ -98,7 +98,7 @@ const UserTable = () => {
         </div>
 
         {/* Table */}
-        <div className="customTable overflow-x-auto w-full rounded-md border border-gray-200">
+        <div className="customTable sidebar-container overflow-x-auto w-full rounded-md border border-gray-200">
           <table className="w-full text-sm">
             <thead className="bg-gray-100">
               <tr>

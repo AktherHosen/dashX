@@ -24,7 +24,7 @@ const Sidebar = ({ toggle }) => {
       style={{ top: "64px" }}
     >
       {/* Container for menus with overflow-y-auto for scrolling */}
-      <div className="h-full overflow-y-auto sidebar-container  border-r-2 mt-1">
+      <div className="h-full overflow-y-auto sidebar-container mt-1">
         <div className="flex items-center flex-col justify-between  min-h-[calc(100vh-64px)]">
           <SidebarMenu toggle={toggle} />
           <div>
