@@ -5,15 +5,15 @@ import { TbLogout2 } from "react-icons/tb";
 
 import { NavLink, useNavigate } from "react-router";
 import SidebarMenu from "../../menu/SidebarMenu";
+import useAuth from "../../../hooks/useAuth";
 
 const Sidebar = ({ toggle }) => {
-  //   const { user, logOut } = useAuth();
+  const { user, logOut } = useAuth();
   const navigate = useNavigate();
-  //   const [role, isLoading] = useRole();
-  //   console.log(role);
+
   const handleLogout = () => {
-    // logOut();
-    // navigate("/");
+    logOut();
+    navigate("/");
   };
 
   return (
@@ -28,7 +28,8 @@ const Sidebar = ({ toggle }) => {
         <div className="flex items-center flex-col justify-between  min-h-[calc(100vh-64px)]">
           <SidebarMenu toggle={toggle} />
           <div>
-            <button
+            {
+              user ?  <button
               onClick={handleLogout}
               className={` w-fit flex gap-1  ${
                 toggle
@@ -47,8 +48,7 @@ const Sidebar = ({ toggle }) => {
               >
                 Logout
               </span>
-            </button>
-            <NavLink
+            </button> :  <NavLink
               to="/login"
               className={` w-fit flex gap-1  ${
                 toggle
@@ -68,6 +68,7 @@ const Sidebar = ({ toggle }) => {
               </span>
               <TbLogin2 className="w-4 h-4" />
             </NavLink>
+            }
           </div>
         </div>
       </div>

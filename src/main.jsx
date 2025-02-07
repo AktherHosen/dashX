@@ -8,19 +8,26 @@ import UserDetail from "./components/dashboard/users/UserDetail";
 import Products from "./pages/dashboard/Products";
 import CreateProduct from "./pages/dashboard/CreateProduct";
 import MyPrdouct from "./pages/dashboard/MyPrdouct";
+import AuthProvider from "./provider/AuthProvider";
+import Registration from "./pages/auth/Registration";
+import Login from "./pages/auth/Login";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<DashboardLayout />}>
-          <Route index element={<Users />} />
-          <Route path="/user-detail/:id" element={<UserDetail />} />
-          <Route path="/products" element={<Products/>} />
-          <Route path="/add-product" element={<CreateProduct/>} />
-          <Route path="/my-product/:id" element={<MyPrdouct />} />
-        </Route>
-      </Routes>
+    <AuthProvider>
+    <Routes>
+          <Route path="/" element={<Login/>}/>
+          <Route path="/registration" element={<Registration/>}/>
+          <Route path="/dashboard" element={<DashboardLayout />}>
+            <Route index={true} element={<Users />} />
+            <Route path="/dashboard/user-detail/:id" element={<UserDetail />} />
+            <Route path="/dashboard/products" element={<Products/>} />
+            <Route path="/dashboard/add-product" element={<CreateProduct/>} />
+            <Route path="/dashboard/my-product/:id" element={<MyPrdouct />} />
+          </Route>
+        </Routes>
+    </AuthProvider>
     </BrowserRouter>
   </StrictMode>
 );

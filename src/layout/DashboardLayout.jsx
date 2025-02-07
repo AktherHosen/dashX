@@ -3,11 +3,13 @@ import { FiUser } from "react-icons/fi";
 import { BsReverseLayoutSidebarInsetReverse } from "react-icons/bs";
 import Sidebar from "../components/dashboard/sidebar/Sidebar";
 import { Link, Outlet } from "react-router";
+import useAuth from "../hooks/useAuth";
 
 const DashboardLayout = () => {
   const [toggle, setToggle] = useState(false);
-  const [dropdown, setDropdown] = useState(false);
-  // const { user } = useAuth();
+ 
+  const { user } = useAuth();
+ console.log(user)
   return (
     <div className="w-full h-screen flex flex-col text-white">
       {/* Navbar */}
@@ -25,21 +27,11 @@ const DashboardLayout = () => {
           </span>
         </div>
         <p className="relative">
-          {/* {user ? (
-            ""
-          ) : (
-            <FiUser
-              className="text-[22px] hover:cursor-pointer hover:text-primary font-bold"
-              onClick={() => setDropdown(!dropdown)}
-            />
-          )} */}
-          <div
-            className={`bg-darkText dark:bg-darkBg w-fit absolute right-0 top-11 ${
-              dropdown ? "block" : "hidden"
-            } p-2 rounded-md shadow-md`}
-          >
-            {/* <DropDownMenu label="Profile" address="profile" icon={FiUser} /> */}
-          </div>
+          {user &&
+          <img src={user?.photoURL}  className="h-9 w-9 rounded-full"
+          alt="Profile"  />  
+          }
+          
         </p>
       </div>
 

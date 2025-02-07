@@ -152,7 +152,7 @@ const UserTable = () => {
                       } zenui-table absolute right-[90%] p-1.5 rounded-md bg-white shadow-md min-w-[160px] transition-all duration-100`}
                     >
                       <Link
-                        to={`/user-detail/${user.id}`}
+                        to={`/dashboard/user-detail/${user.id}`}
                         className="flex items-center gap-[8px] text-[0.9rem] py-1.5 px-2 w-full rounded-md text-gray-700 cursor-pointer hover:bg-gray-50 transition-all duration-200"
                       >
                         <IoEyeOutline />

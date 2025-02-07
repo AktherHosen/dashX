@@ -25,7 +25,7 @@ const Products = () => {
     <div>
         <div className='flex justify-between items-center'>
         <h3 className='text-lg my-4'>Products</h3>
-        <Link to="/add-product"  className="px-6 py-2 border text-white border-[#3e3939] hover:bg-[#000000]  hover:text-[#fff]  transition duration-300 rounded ">
+        <Link to="/dashboard/add-product"  className="px-6 py-2 border text-white border-[#3e3939] hover:bg-[#000000]  hover:text-[#fff]  transition duration-300 rounded ">
               Add Product
         </Link>
         </div>

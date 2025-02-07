@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { FaEye, FaTrash } from "react-icons/fa"; // Importing icons for view and delete
-import { Link } from "react-router";
+import { FaEye, FaTrash } from "react-icons/fa"; 
+import { Link } from "react-router"; 
+import useAuth from "../../hooks/useAuth";
 
 const CreateProduct = () => {
+  const { user } = useAuth(); 
   const [formData, setFormData] = useState({
+    user_id: user?.uid, 
     name: "",
     year: "",
     price: "",
@@ -15,8 +18,9 @@ const CreateProduct = () => {
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    setProducts(storedProducts);
-  }, []);
+    const filteredProducts = storedProducts.filter(product => product.user_id === user?.uid);
+    setProducts(filteredProducts);
+  }, [user?.uid]); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,9 +28,11 @@ const CreateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     const productData = {
+      id: Date.now(), 
       name: formData.name,
+      user_id: user?.uid, 
       data: {
         year: parseInt(formData.year),
         price: parseFloat(formData.price),
@@ -34,44 +40,41 @@ const CreateProduct = () => {
         "Hard disk size": formData.hardDiskSize,
       }
     };
-
+  
     try {
-      // Sending product to API
       const response = await axios.post("https://api.restful-api.dev/objects", productData, {
         headers: { "Content-Type": "application/json" },
       });
-
-      // Update the product list in state and localStorage
-      const updatedProducts = [...products, response.data];
-      setProducts(updatedProducts);
+  
+      const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      const updatedProducts = [...allProducts, productData];
       localStorage.setItem("products", JSON.stringify(updatedProducts));
-
+  
+      setProducts(updatedProducts.filter(product => product.user_id === user?.uid));
+  
       alert("Product added successfully!");
-
-      // Reset the form
       setFormData({ name: "", year: "", price: "", cpuModel: "", hardDiskSize: "" });
     } catch (error) {
       console.error("Error adding product:", error);
       alert("Failed to add product!");
     }
   };
-
-  // Handle product deletion
+  
   const handleDelete = (id) => {
     const updatedProducts = products.filter(product => product.id !== id);
     setProducts(updatedProducts);
-    localStorage.setItem("products", JSON.stringify(updatedProducts));
+    const allProducts = JSON.parse(localStorage.getItem("products")) || [];
+    const filteredAllProducts = allProducts.filter(product => product.id !== id);
+    localStorage.setItem("products", JSON.stringify(filteredAllProducts));
+
     alert("Product deleted successfully!");
   };
 
-  
   return (
     <div className="container mx-auto mt-6 p-4">
-      {/* Form to create a product */}
       <form onSubmit={handleSubmit} className="space-y-4 p-4 bg-black border rounded-md w-96 mx-auto">
         <h2 className="text-xl font-bold text-white">Add Product</h2>
 
-        {/* Product Name Input */}
         <div>
           <label className="block text-white">Product Name:</label>
           <input
@@ -84,7 +87,6 @@ const CreateProduct = () => {
           />
         </div>
 
-        {/* Year Input */}
         <div>
           <label className="block text-white">Year:</label>
           <input
@@ -97,7 +99,6 @@ const CreateProduct = () => {
           />
         </div>
 
-        {/* Price Input */}
         <div>
           <label className="block text-white">Price:</label>
           <input
@@ -111,7 +112,6 @@ const CreateProduct = () => {
           />
         </div>
 
-        {/* CPU Model Input */}
         <div>
           <label className="block text-white">CPU Model:</label>
           <input
@@ -124,7 +124,6 @@ const CreateProduct = () => {
           />
         </div>
 
-        {/* Hard Disk Size Input */}
         <div>
           <label className="block text-white">Hard Disk Size:</label>
           <input
@@ -137,13 +136,10 @@ const CreateProduct = () => {
           />
         </div>
 
-        {/* Submit Button */}
         <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">
           Submit
         </button>
       </form>
-
-      {/* Display Products */}
       <div className="mt-6">
         <h2 className="text-xl font-bold text-white mb-2">Your Added Products</h2>
         <ul className="border p-4 rounded-md bg-gray-800 text-white">
@@ -154,7 +150,7 @@ const CreateProduct = () => {
                   <strong>{product.name}</strong> - {product.data?.price ? `$${product.data.price}` : "No Price"}
                 </div>
                 <div className="space-x-2 flex items-center gap-2">
-                  <Link to={`/my-product/${product.id}`} className="text-blue-500">
+                  <Link to={`/dashboard/my-product/${product.id}`} className="text-blue-500">
                     <FaEye />
                   </Link>
                   <button onClick={() => handleDelete(product.id)} className="text-red-500">
