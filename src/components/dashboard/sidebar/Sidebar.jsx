@@ -50,7 +50,7 @@ const Sidebar = ({ toggle }) => {
               </button>
             ) : (
               <NavLink
-                to="/login"
+                to="/"
                 className={` w-fit flex gap-1  ${
                   toggle
                     ? " w-fit px-2 justify-center items-center"
