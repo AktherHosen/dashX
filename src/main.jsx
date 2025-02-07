@@ -11,10 +11,12 @@ import MyPrdouct from "./pages/dashboard/MyPrdouct";
 import AuthProvider from "./provider/AuthProvider";
 import Registration from "./pages/auth/Registration";
 import Login from "./pages/auth/Login";
+import { Toaster } from "react-hot-toast";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <BrowserRouter>
+      <Toaster />
       <AuthProvider>
         <Routes>
           <Route path="/" element={<Login />} />

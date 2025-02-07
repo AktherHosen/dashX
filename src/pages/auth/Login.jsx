@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { IoMdEye } from "react-icons/io";
 import { IoMdEyeOff } from "react-icons/io";
-import { IoMdArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
+import toast from "react-hot-toast";
 
 const Login = () => {
   const { signInWithGoogle, user, signIn, setLoading, resetPassword } =
@@ -20,27 +20,30 @@ const Login = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-
     try {
       await signIn(email, password);
+      toast.success("Login successful!");
       navigate("/dashboard");
-    } catch (err) {}
+    } catch (err) {
+      toast.error(err?.message);
+    }
   };
 
   const handleGoogleSignIn = async () => {
     try {
-      const result = await signInWithGoogle();
+      await signInWithGoogle();
+      toast.success("Login successfull!");
       navigate("/dashboard");
     } catch (err) {
-      console.error("Google sign-in failed:", err?.message);
+      toast.error(err?.message);
     }
   };
 
   const handleResetPassword = async (e) => {
-    if (!email) return console.error("Please write your email first!");
+    if (!email) return toast.error("Please write your email first!");
     try {
       await resetPassword(email);
-
+      toast.success("Password reset link sent to your email");
       setLoading(false);
     } catch (err) {
       toast.error(err.message);
@@ -73,8 +76,8 @@ const Login = () => {
                   type="email"
                   name="email"
                   onBlur={(e) => setEmail(e.target.value)}
-                  placeholder="hello@dashX.com"
-                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent "
+                  placeholder="hello@dashx.com"
+                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2 focus:border-transparent "
                 />
               </div>
               <div>

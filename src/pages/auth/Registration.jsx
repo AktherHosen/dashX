@@ -3,6 +3,7 @@ import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useLocation, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../api/utils";
+import toast from "react-hot-toast";
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,18 +29,19 @@ const Registration = () => {
       try {
         image_url = await imageUpload(profilePhoto);
       } catch (err) {
-        console.error("Image upload failed:", err.message);
+        toast.error("Image upload failed:", err.message);
         return;
       }
     }
 
     try {
       setLoading(true);
-      const result = await createUser(email, password);
+      await createUser(email, password);
       await updateUserProfile(name, image_url);
+      toast.success("Registration successful");
       navigate(from);
     } catch (err) {
-      console.error(err);
+      toast.error(err?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -67,7 +69,7 @@ const Registration = () => {
                   type="name"
                   name="name"
                   id="name"
-                  placeholder="quickdrop"
+                  placeholder="dashx"
                   className="ps-2 py-3 border-2 rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent"
                 />
               </div>
@@ -80,7 +82,7 @@ const Registration = () => {
                   name="email"
                   id="email"
                   required
-                  placeholder="hello@dashX.com"
+                  placeholder="hello@dashx.com"
                   className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent"
                 />
               </div>

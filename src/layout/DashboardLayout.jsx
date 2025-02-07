@@ -18,9 +18,9 @@ const DashboardLayout = () => {
             toggle ? "w-[50px] justify-center" : "w-[200px]"
           }`}
         >
-          <Link to="/" className={` font-bold ${toggle ? "hidden" : "flex"}`}>
+          <span className={` font-bold ${toggle ? "hidden" : "flex"}`}>
             dashX
-          </Link>
+          </span>
           <span onClick={() => setToggle(!toggle)}>
             <BsReverseLayoutSidebarInsetReverse className="text-[19px]" />
           </span>

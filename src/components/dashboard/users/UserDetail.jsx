@@ -5,7 +5,7 @@ import { HashLoader } from "react-spinners";
 const UserDetail = () => {
   const { id } = useParams();
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true); // ✅ Add loading state
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -18,12 +18,12 @@ const UserDetail = () => {
       } catch (err) {
         console.log(err);
       } finally {
-        setLoading(false); // ✅ Stop loading after fetching data
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, [id]); // ✅ Add id as a dependency
+  }, [id]);
 
   return (
     <div className="mx-auto flex items-center justify-center space-x-4 w-full h-[80vh]">
@@ -33,25 +33,19 @@ const UserDetail = () => {
         </div>
       ) : (
         <>
-          <div className="w-[400px] h-fit flex flex-col justify-center border px-4 py-2 rounded-sm shadow-sm">
+          <div className="w-[420px] bg-darkBg text-darkText px-4 py-4 rounded-md h-fit flex space-y-1 flex-col justify-center border shadow-sm">
             <h3 className="text-[1.5rem] font-bold">
               {user?.name}{" "}
-              <span className="text-[0.8rem] text-gray-500">
-                ( {user?.username} )
-              </span>
+              <span className="text-[0.8rem] ">( {user?.username} )</span>
             </h3>
-            <p className="text-[0.9rem] text-gray-500">Email: {user?.email}</p>
-            <p className="text-[0.9rem] text-gray-500">Phone: {user?.phone}</p>
-            <p className="text-[0.9rem] text-gray-500">
+            <p className="text-[0.9rem] ">Email: {user?.email}</p>
+            <p className="text-[0.9rem] ">Phone: {user?.phone}</p>
+            <p className="text-[0.9rem] ">
               Address: {user?.address?.street}, {user?.address?.suite},{" "}
               {user?.address?.city}, {user?.address?.zipcode}
             </p>
-            <p className="text-[0.9rem] text-gray-500">
-              Company: {user?.company?.name}
-            </p>
-            <p className="text-[0.9rem] text-gray-500">
-              Website: {user?.website}
-            </p>
+            <p className="text-[0.9rem] ">Company: {user?.company?.name}</p>
+            <p className="text-[0.9rem]">Website: {user?.website}</p>
           </div>
         </>
       )}

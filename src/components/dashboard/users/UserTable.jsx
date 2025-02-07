@@ -1,98 +1,74 @@
-import React, { useEffect, useMemo, useState } from "react";
-
+import React, { useEffect, useState } from "react";
 import { HiOutlineArrowsUpDown } from "react-icons/hi2";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { IoEyeOutline } from "react-icons/io5";
 import { Link } from "react-router";
 
 const UserTable = () => {
-  const [data, setData] = useState([]);
-  const [search, setSearch] = useState("");
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
-  const [openActionMenuId, setOpenActionMenuId] = useState(null);
+  const [users, setUsers] = useState([]);
+  const [query, setQuery] = useState("");
+  const [sortKey, setSortKey] = useState(null);
+  const [sortOrder, setSortOrder] = useState("asc");
+  const [activeMenu, setActiveMenu] = useState(null);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUsers = async () => {
       try {
         const response = await fetch(
           "https://jsonplaceholder.typicode.com/users"
         );
         const data = await response.json();
-        setData(data);
+        setUsers(data);
       } catch (err) {
         console.log(err);
       }
     };
-
-    fetchData();
+    fetchUsers();
   }, []);
 
-  const toggleActionMenu = (id) => {
-    setOpenActionMenuId(openActionMenuId === id ? null : id);
+  const toggleMenu = (id) => {
+    setActiveMenu(activeMenu === id ? null : id);
   };
-
-  const getValue = (obj, key) =>
-    key.includes(".")
-      ? key.split(".").reduce((acc, part) => acc && acc[part], obj)
-      : obj[key];
-
-  const filteredData = useMemo(() => {
-    return data.filter((user) =>
-      ["name", "email", "address.city"].some((key) => {
-        const value = getValue(user, key);
-        return value?.toString().toLowerCase().includes(search.toLowerCase());
-      })
-    );
-  }, [data, search]);
 
   const handleSort = (key) => {
-    let direction = "asc";
-    if (sortConfig.key === key && sortConfig.direction === "asc") {
-      direction = "desc";
-    }
-    setSortConfig({ key, direction });
+    setSortOrder(sortKey === key && sortOrder === "asc" ? "desc" : "asc");
+    setSortKey(key);
   };
 
-  const sortedData = useMemo(() => {
-    if (!sortConfig.key) return filteredData;
+  const sortedUsers = [...users].sort((a, b) => {
+    if (!sortKey) return 0;
+    const aValue = sortKey.includes(".")
+      ? sortKey.split(".").reduce((acc, part) => acc && acc[part], a)
+      : a[sortKey];
+    const bValue = sortKey.includes(".")
+      ? sortKey.split(".").reduce((acc, part) => acc && acc[part], b)
+      : b[sortKey];
 
-    return [...filteredData].sort((a, b) => {
-      const aValue = getValue(a, sortConfig.key);
-      const bValue = getValue(b, sortConfig.key);
+    if (aValue < bValue) return sortOrder === "asc" ? -1 : 1;
+    if (aValue > bValue) return sortOrder === "asc" ? 1 : -1;
+    return 0;
+  });
 
-      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
-      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
-      return 0;
-    });
-  }, [filteredData, sortConfig]);
-
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (
-        !event.target.closest(".zenui-table") &&
-        !event.target.closest(".action-btn")
-      ) {
-        setOpenActionMenuId(null);
-      }
-    };
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
+  const filteredUsers = sortedUsers.filter((user) =>
+    ["name", "email", "address.city"].some((key) => {
+      const value = key.includes(".")
+        ? key.split(".").reduce((acc, part) => acc && acc[part], user)
+        : user[key];
+      return value?.toString().toLowerCase().includes(query.toLowerCase());
+    })
+  );
 
   return (
-    <div className="customTable w-full flex items-center flex-col gap-2 justify-center">
+    <div className="table-container w-full flex items-center flex-col gap-2">
       <div className="w-full mx-auto">
-        <div className="mb-4">
-          <input
-            placeholder="Search..."
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            className="max-w-sm py-2.5 px-4 border border-gray-200 rounded-md outline-none focus:border-blue-300"
-          />
-        </div>
-
-        <div className="customTable sidebar-container overflow-x-auto w-full rounded-md border border-gray-200">
-          <table className="w-full text-sm mb-20">
+        <input
+          placeholder="Search user.."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="max-w-sm py-2 my-2 px-4 border bg-white text-black border-gray-200 rounded-md outline-none focus:border-blue-300"
+        />
+        <div className="user-table overflow-x-auto w-full rounded-md border border-gray-200">
+          <table className="w-full text-sm mb-10">
             <thead className="bg-darkText">
               <tr>
                 <th className="p-3 text-left font-medium text-gray-700">ID</th>
@@ -118,10 +94,10 @@ const UserTable = () => {
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr
                   key={user.id}
-                  className="p-3 text-left font-medium text-gray-700 cursor-pointer"
+                  className="p-3 text-left font-medium text-gray-700"
                 >
                   <td className="p-3">{user.id}</td>
                   <td className="p-3">{user.name}</td>
@@ -129,37 +105,26 @@ const UserTable = () => {
                   <td className="p-3">{user.address.city}</td>
                   <td className="p-3 relative">
                     <BsThreeDotsVertical
-                      onClick={() => toggleActionMenu(user.id)}
-                      className="action-btn text-gray-600 cursor-pointer"
+                      onClick={() => toggleMenu(user.id)}
+                      className="menu-btn text-gray-600 cursor-pointer"
                     />
-
-                    <div
-                      className={`${
-                        openActionMenuId === user.id
-                          ? "opacity-100 scale-[1] z-30"
-                          : "opacity-0 scale-[0.8] z-[-1]"
-                      } ${
-                        data.length > 1 ? "bottom-[-90%]" : "top-[90%]"
-                      } zenui-table absolute right-[90%] p-1.5 rounded-md bg-white shadow-md min-w-[160px] transition-all duration-100`}
-                    >
-                      <Link
-                        to={`/dashboard/user-detail/${user.id}`}
-                        className="flex items-center gap-[8px] text-[0.9rem] py-1.5 px-2 w-full rounded-md text-gray-700 cursor-pointer hover:bg-gray-50 transition-all duration-200"
-                      >
-                        <IoEyeOutline />
-                        View Details
-                      </Link>
-                    </div>
+                    {activeMenu === user.id && (
+                      <div className="absolute right-[90%] p-2 bg-white shadow-md  rounded-md z-30">
+                        <Link
+                          to={`/dashboard/user-detail/${user.id}`}
+                          className="flex items-center gap-2 text-gray-700 hover:bg-gray-50 p-2 rounded-md"
+                        >
+                          <IoEyeOutline /> View
+                        </Link>
+                      </div>
+                    )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-
-          {!sortedData.length && (
-            <p className="text-[0.9rem] text-gray-500 py-6 text-center w-full">
-              No data found!
-            </p>
+          {!filteredUsers.length && (
+            <p className="text-center text-gray-500 mb-2">No data found!</p>
           )}
         </div>
       </div>
