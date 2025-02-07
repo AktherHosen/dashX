@@ -5,7 +5,6 @@ import { IoMdArrowBack } from "react-icons/io";
 import { Link, useNavigate } from "react-router";
 import useAuth from "../../hooks/useAuth";
 
-
 const Login = () => {
   const { signInWithGoogle, user, signIn, setLoading, resetPassword } =
     useAuth();
@@ -16,7 +15,6 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
-
   const handleLogin = async (e) => {
     e.preventDefault();
     const form = e.target;
@@ -26,16 +24,13 @@ const Login = () => {
     try {
       await signIn(email, password);
       navigate("/dashboard");
-    } catch (err) {
-      
-    }
+    } catch (err) {}
   };
 
   const handleGoogleSignIn = async () => {
     try {
       const result = await signInWithGoogle();
-      navigate("/");
-
+      navigate("/dashboard");
     } catch (err) {
       console.error("Google sign-in failed:", err?.message);
     }
@@ -45,7 +40,7 @@ const Login = () => {
     if (!email) return console.error("Please write your email first!");
     try {
       await resetPassword(email);
-     
+
       setLoading(false);
     } catch (err) {
       toast.error(err.message);
@@ -55,7 +50,6 @@ const Login = () => {
 
   return (
     <>
-  
       <section className="max-w-[1240px] h-[100vh] flex justify-center items-center mx-auto px-6 sm:px-5 lg:px-4 ">
         <div className="border dark:border-gray-500 rounded-md shadow-xs w-[450px]">
           <div className="px-4 w-full">
@@ -66,7 +60,7 @@ const Login = () => {
               >
                 <IoMdArrowBack className="inline text-xl " />
               </Link>
-            
+
               <div className="flex flex-col justify-center items-center mb-6">
                 <h2 className="text-[1.2rem] font-semibold">Welcome Back</h2>
                 <p className="text-gray-600 dark:text-darkText text-sm">
@@ -140,7 +134,6 @@ const Login = () => {
               onClick={handleGoogleSignIn}
               className="bg-trasparent dark:border-gray-500 rounded-md w-full py-3 h-[48px] border border-gray-800 shadow-none"
             >
-          
               <span className="uppercase ms-2  text-normal text-sm ">
                 Sign in via google
               </span>
