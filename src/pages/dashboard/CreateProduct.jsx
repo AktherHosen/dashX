@@ -8,7 +8,6 @@ import toast from "react-hot-toast";
 const CreateProduct = () => {
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    user_id: user?.uid,
     name: "",
     year: "",
     price: "",
@@ -19,10 +18,13 @@ const CreateProduct = () => {
 
   useEffect(() => {
     const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
-    const filteredProducts = storedProducts.filter(
-      (product) => product.user_id === user?.uid
-    );
-    setProducts(filteredProducts);
+
+    if (user?.uid) {
+      const filteredProducts = storedProducts.filter(
+        (product) => product.user_id === user.uid
+      );
+      setProducts(filteredProducts);
+    }
   }, [user?.uid]);
 
   const handleChange = (e) => {
@@ -52,12 +54,11 @@ const CreateProduct = () => {
         }
       );
 
-      console.log("API Response:", response.data); // Debugging step
+      console.log("API Response:", response.data);
 
-      const newProduct = response.data; // Get product with API-generated ID
+      const newProduct = { ...response.data, user_id: user?.uid };
 
-      // Save to local storage with correct ID
-      const allProducts = JSON.parse(localStorage.getItem("products") || "[]");
+      const allProducts = JSON.parse(localStorage.getItem("products")) || [];
       const updatedProducts = [...allProducts, newProduct];
       localStorage.setItem("products", JSON.stringify(updatedProducts));
 
@@ -82,6 +83,7 @@ const CreateProduct = () => {
   const handleDelete = (id) => {
     const updatedProducts = products.filter((product) => product.id !== id);
     setProducts(updatedProducts);
+
     const allProducts = JSON.parse(localStorage.getItem("products")) || [];
     const filteredAllProducts = allProducts.filter(
       (product) => product.id !== id
