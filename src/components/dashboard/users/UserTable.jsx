@@ -87,7 +87,6 @@ const UserTable = () => {
   return (
     <div className="customTable w-full flex items-center flex-col gap-2 justify-center">
       <div className="w-full mx-auto">
-        {/* Search Input */}
         <div className="mb-4">
           <input
             placeholder="Search..."
@@ -97,9 +96,8 @@ const UserTable = () => {
           />
         </div>
 
-        {/* Table */}
         <div className="customTable sidebar-container overflow-x-auto w-full rounded-md border border-gray-200">
-          <table className="w-full text-sm">
+          <table className="w-full text-sm mb-20">
             <thead className="bg-gray-100">
               <tr>
                 <th className="p-3 text-left font-medium text-gray-700">ID</th>
@@ -135,13 +133,11 @@ const UserTable = () => {
                   <td className="p-3">{user.email}</td>
                   <td className="p-3">{user.address.city}</td>
                   <td className="p-3 relative">
-                    {/* Action Button */}
                     <BsThreeDotsVertical
                       onClick={() => toggleActionMenu(user.id)}
                       className="action-btn text-gray-600 cursor-pointer"
                     />
 
-                    {/* Action Menu */}
                     <div
                       className={`${
                         openActionMenuId === user.id
@@ -165,7 +161,6 @@ const UserTable = () => {
             </tbody>
           </table>
 
-          {/* No Data Message */}
           {!sortedData.length && (
             <p className="text-[0.9rem] text-gray-500 py-6 text-center w-full">
               No data found!

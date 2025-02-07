@@ -1,12 +1,8 @@
 import React, { useState } from "react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { Link, useLocation, useNavigate } from "react-router";
-
 import useAuth from "../../hooks/useAuth";
 import { imageUpload } from "../../api/utils";
-
-
-
 
 const Registration = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,20 +10,17 @@ const Registration = () => {
   const togglePassword = () => {
     setShowPassword(!showPassword);
   };
-  const { loading, setLoading, createUser, saveUser, updateUserProfile } =
-    useAuth();
+  const { setLoading, createUser, updateUserProfile } = useAuth();
   const location = useLocation();
   const from = location?.state || "/dashboard";
   const navigate = useNavigate();
 
-  // Registration
   const handleRegistration = async (e) => {
     e.preventDefault();
     const form = e.target;
     const name = form.name.value;
     const email = form.email.value;
     const profilePhoto = form.profilePhoto.files[0];
-   
     const password = form.password.value;
 
     let image_url = "";
@@ -36,7 +29,6 @@ const Registration = () => {
         image_url = await imageUpload(profilePhoto);
       } catch (err) {
         console.error("Image upload failed:", err.message);
-   
         return;
       }
     }
@@ -45,10 +37,8 @@ const Registration = () => {
       setLoading(true);
       const result = await createUser(email, password);
       await updateUserProfile(name, image_url);
-      
       navigate(from);
     } catch (err) {
-    
       console.error(err);
     } finally {
       setLoading(false);
@@ -58,7 +48,7 @@ const Registration = () => {
   return (
     <>
       <section className="max-w-[1240px] h-[100vh] flex items-center justify-center mx-auto px-6 sm:px-5 lg:px-4">
-        <div className="border dark:border-gray-500 rounded-md shadow-xs w-[450px] mx-auto ">
+        <div className="border rounded-md shadow-xs w-[450px] mx-auto ">
           <div className="px-4">
             <div className="mt-6">
               <h2 className="text-[1.2rem] font-semibold mx-auto text-center">
@@ -78,7 +68,7 @@ const Registration = () => {
                   name="name"
                   id="name"
                   placeholder="quickdrop"
-                  className="ps-2 py-3 border-2 rounded-md w-full mt-1 focus:outline-none focus:ring-2 dark:bg-darkBg dark:border-gray-500 focus:border-transparent"
+                  className="ps-2 py-3 border-2 rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent"
                 />
               </div>
               <div>
@@ -90,8 +80,8 @@ const Registration = () => {
                   name="email"
                   id="email"
                   required
-                  placeholder="hello@quickdrop.com"
-                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2 dark:bg-darkBg dark:border-gray-500 focus:border-transparent"
+                  placeholder="hello@dashX.com"
+                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent"
                 />
               </div>
 
@@ -104,7 +94,7 @@ const Registration = () => {
                   name="profilePhoto"
                   id="profilePhoto"
                   accept="image/*"
-                  className="file-input file-input-bordered file-input-md focus:outline-none focus:ring-2 outline-none dark:bg-darkBg dark:border-gray-500 focus:border-transparent  ps-2 py-3 border rounded-md w-full mt-1"
+                  className="file-input file-input-bordered file-input-md focus:outline-none focus:ring-2 outline-none focus:border-transparent  ps-2 py-3 border rounded-md w-full mt-1"
                 />
               </div>
               <div>
@@ -116,7 +106,7 @@ const Registration = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="********"
                     name="password"
-                    className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2 dark:bg-darkBg dark:text-darkText dark:border-gray-500 focus:border-transparent block"
+                    className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent block"
                   />
                   <div
                     className="absolute right-3 top-[28%] cursor-pointer"
@@ -133,7 +123,7 @@ const Registration = () => {
 
               <button
                 type="submit"
-                className="bg-gray-800 text-darkText  dark:bg-primary dark:text-darkText rounded-md w-full py-3 h-[48px] "
+                className="bg-gray-800 text-darkText rounded-md w-full py-3 h-[48px] "
               >
                 Register
               </button>
@@ -142,7 +132,7 @@ const Registration = () => {
               Already have an account?{" "}
               <Link
                 to="/"
-                className="text-[#1a32cb] hover:underline hover:underline-offset-2 dark:text-darkText dark:underline dark:underline-offset-2 "
+                className="text-[#1a32cb] hover:underline hover:underline-offset-2"
               >
                 Login
               </Link>

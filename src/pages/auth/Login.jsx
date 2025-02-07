@@ -54,13 +54,6 @@ const Login = () => {
         <div className="border dark:border-gray-500 rounded-md shadow-xs w-[450px]">
           <div className="px-4 w-full">
             <div className="my-2 relative">
-              <Link
-                to="/"
-                className="my-6 text-white font-semibold rounded-full bg-gray-600 dark:bg-primary flex items-center justify-center p-1 w-fit absolute top-0 left-0"
-              >
-                <IoMdArrowBack className="inline text-xl " />
-              </Link>
-
               <div className="flex flex-col justify-center items-center mb-6">
                 <h2 className="text-[1.2rem] font-semibold">Welcome Back</h2>
                 <p className="text-gray-600 dark:text-darkText text-sm">
@@ -80,8 +73,8 @@ const Login = () => {
                   type="email"
                   name="email"
                   onBlur={(e) => setEmail(e.target.value)}
-                  placeholder="hello@quickdrop.com"
-                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent dark:bg-darkBg dark:border-gray-500"
+                  placeholder="hello@dashX.com"
+                  className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent "
                 />
               </div>
               <div>
@@ -96,7 +89,7 @@ const Login = () => {
                     type={showPassword ? "text" : "password"}
                     placeholder="********"
                     name="password"
-                    className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2 dark:bg-darkBg dark:border-gray-500 focus:border-transparent block"
+                    className="ps-2 py-3 border rounded-md w-full mt-1 focus:outline-none focus:ring-2  focus:border-transparent block"
                   />
                   <div
                     className="absolute right-4 top-[28%] cursor-pointer"
