@@ -25,7 +25,7 @@ const Products = () => {
         <h3 className="text-lg my-4">Products</h3>
         <Link
           to="/dashboard/add-product"
-          className="px-6 py-2 border text-white border-[#3e3939] bg-[#000000]    transition duration-300 rounded "
+          className="px-4 py-1.5 border text-darkText border-[#3e3939] bg-darkBg   transition duration-300 rounded "
         >
           Add Product
         </Link>

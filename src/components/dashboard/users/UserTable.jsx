@@ -11,7 +11,6 @@ const UserTable = () => {
   const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
   const [openActionMenuId, setOpenActionMenuId] = useState(null);
 
-  // Fetch Users
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,7 +36,6 @@ const UserTable = () => {
       ? key.split(".").reduce((acc, part) => acc && acc[part], obj)
       : obj[key];
 
-  // Search Filter
   const filteredData = useMemo(() => {
     return data.filter((user) =>
       ["name", "email", "address.city"].some((key) => {
@@ -47,7 +45,6 @@ const UserTable = () => {
     );
   }, [data, search]);
 
-  // Sort Function
   const handleSort = (key) => {
     let direction = "asc";
     if (sortConfig.key === key && sortConfig.direction === "asc") {
@@ -56,7 +53,6 @@ const UserTable = () => {
     setSortConfig({ key, direction });
   };
 
-  // Sort Data
   const sortedData = useMemo(() => {
     if (!sortConfig.key) return filteredData;
 
@@ -70,7 +66,6 @@ const UserTable = () => {
     });
   }, [filteredData, sortConfig]);
 
-  // Close Action Menu on Outside Click
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -98,7 +93,7 @@ const UserTable = () => {
 
         <div className="customTable sidebar-container overflow-x-auto w-full rounded-md border border-gray-200">
           <table className="w-full text-sm mb-20">
-            <thead className="bg-gray-100">
+            <thead className="bg-darkText">
               <tr>
                 <th className="p-3 text-left font-medium text-gray-700">ID</th>
                 <th

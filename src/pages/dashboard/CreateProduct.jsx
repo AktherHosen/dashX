@@ -200,7 +200,7 @@ const CreateProduct = () => {
               </li>
             ))
           ) : (
-            <li className="text-white">No products added yet</li>
+            <li className="text-white">No products added yet!</li>
           )}
         </ul>
       </div>
